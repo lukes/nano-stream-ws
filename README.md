@@ -3,18 +3,28 @@
 
 A tiny and performant websocket server that streams block data from a [nano currency](https://nano.org/) node.
 
+It builds on the socket stream of block data set up by the [nano-stream-x](https://github.com/lukes/nano-stream-x) library, which is packaged in this library as a dependency.
+
 ## Installation
 
     npm install --global nano-stream-ws
 
 ## Usage
 
+You first start the stream of socket data from [nano-stream-x](https://github.com/lukes/nano-stream-x) and then then start the websocket server.
+
+### Start the stream
+
+    npm run stream
+
+This will start a streaming server on `127.0.0.1:3000`. To override those defaults:
+
+    npm run stream host=ipv6-localhost port=3001
+
 ### Start the websocket server
 
-    node app
+    npm run websockets
 
-The server will default to running on port `8080`.
+The websocket server will run on port `8080`. To override this:
 
-Override this by passing in `port` as an argument:
-
-    node app port=80
+    npm run websockets port=8081
