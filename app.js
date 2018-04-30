@@ -24,8 +24,13 @@ ipc.connectTo(
     ipc.of.nanoStream.on(
       'payload', // topic
       function(data){
-        console.debug('Sending websocket data to all clients');
-        wss.clients.forEach(ws => ws.send(data));
+        if (wss.clients.length > 0) {
+          console.debug('Sending websocket data to all clients');
+          wss.clients.forEach(ws => ws.send(data));
+        } else {
+          console.debug('Payload received, but there are no connected clients');
+        }
+
       }
     );
   }
