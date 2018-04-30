@@ -13,8 +13,8 @@ A tiny and performant websocket server that streams block data from a [nano curr
 
     node app
 
-## TODO
+The server will default to running on port `80`.
 
-Edit the RPC config.
+Override this by passing in `port` as an argument:
 
-Bundle nano-stream-core.
+    node app port=8080
