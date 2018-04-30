@@ -13,7 +13,7 @@ let port = 8080;
 
 // Process any args passed in and overwrite defaults
 const args =  process.argv.slice(2);
-args.forEach((arg, index, array) => {
+args.forEach((arg) => {
   const [key, value] = arg.split('=');
   if (key === 'port') port = value;
 });
