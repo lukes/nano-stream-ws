@@ -32,8 +32,8 @@ ipc.connectTo(
 
 wsServer.listen(port, (err) => {
   if (err) {
-    return console.error('something bad happened', err);
+    return console.error('Something bad happened', err);
   }
 
-  console.log(`websocket server is listening on ${port}`);
+  console.log(`Websocket server is listening on ${port}`);
 });
