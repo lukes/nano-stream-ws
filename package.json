@@ -1,11 +1,28 @@
 {
   "name": "nano-stream-ws",
   "version": "0.1.0",
-  "description": "",
-  "main": "websockets.js",
+  "description": "A tiny and performant websocket server that streams block data from a Nano currency node",
+  "main": "app.js",
+  "homepage": "https://github.com/lukes/nano-stream-ws",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lukes/nano-stream-ws.git"
+  },
+  "keywords": [
+    "nano",
+    "rpc",
+    "cryptocurrency",
+    "currency",
+    "crypto",
+    "websocket",
+    "websockets",
+    "ws",
+    "socket"
+  ],
   "author": "Luke Duncalfe",
   "license": "MIT",
   "dependencies": {
