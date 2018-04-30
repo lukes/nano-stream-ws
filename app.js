@@ -9,7 +9,7 @@ const wsServer = new http.createServer();
 const wss = new WebSocket.Server({ server: wsServer });
 
 // Default port
-let port = 80;
+let port = 8080;
 
 // Process any args passed in and overwrite defaults
 const args =  process.argv.slice(2);
