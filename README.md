@@ -1,7 +1,7 @@
 
 # nano-stream-ws
 
-This library is a tiny and lightweight node websocket server that streams block data from a [nano currency](https://nano.org/) node as websocket messages.
+A tiny and performant websocket server that streams block data from a [nano currency](https://nano.org/) node.
 
 ## Installation
 

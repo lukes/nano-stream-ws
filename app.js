@@ -7,7 +7,16 @@ ipc.config.retry = 1500;
 
 const wsServer = new http.createServer();
 const wss = new WebSocket.Server({ server: wsServer });
-const wssPort = 8080;
+
+// Default port
+let port = 80;
+
+// Process any args passed in and overwrite defaults
+const args =  process.argv.slice(2);
+args.forEach((arg, index, array) => {
+  const [key, value] = arg.split('=');
+  if (key === 'port') port = value;
+});
 
 ipc.connectTo(
   'nanoStream', () => {
@@ -21,10 +30,10 @@ ipc.connectTo(
   }
 );
 
-wsServer.listen(wssPort, (err) => {
+wsServer.listen(port, (err) => {
   if (err) {
     return console.error('something bad happened', err);
   }
 
-  console.log(`websocket server is listening on ${wssPort}`);
+  console.log(`websocket server is listening on ${port}`);
 });
