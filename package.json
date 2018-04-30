@@ -1,0 +1,19 @@
+{
+  "name": "nano-stream-ws",
+  "version": "0.1.0",
+  "description": "",
+  "main": "websockets.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luke Duncalfe",
+  "license": "MIT",
+  "dependencies": {
+    "node-ipc": "^9.1.1",
+    "ws": "^5.1.1"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^3.0.4",
+    "utf-8-validate": "^4.0.1"
+  }
+}
