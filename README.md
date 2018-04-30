@@ -11,7 +11,7 @@ It builds on the socket stream of block data set up by the [nano-stream-x](https
 
 ## Usage
 
-You first start the stream of socket data from [nano-stream-x](https://github.com/lukes/nano-stream-x) and then then start the websocket server.
+You first start the stream of socket data from [nano-stream-x](https://github.com/lukes/nano-stream-x) and then start the websocket server.
 
 ### Start the stream
 
