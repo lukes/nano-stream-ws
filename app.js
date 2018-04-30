@@ -8,14 +8,15 @@ ipc.config.retry = 1500;
 const wsServer = new http.createServer();
 const wss = new WebSocket.Server({ server: wsServer });
 
-// Default port
-let port = 8080;
+const CONF = {
+  port: 8080
+};
 
 // Process any args passed in and overwrite defaults
 const args =  process.argv.slice(2);
 args.forEach((arg) => {
   const [key, value] = arg.split('=');
-  if (key === 'port') port = value;
+  CONF[key] = value;
 });
 
 ipc.connectTo(
@@ -30,10 +31,10 @@ ipc.connectTo(
   }
 );
 
-wsServer.listen(port, (err) => {
+wsServer.listen(CONF, (err) => {
   if (err) {
     return console.error('Something bad happened', err);
   }
 
-  console.log(`Websocket server is listening on ${port}`);
+  console.log(`Websocket server is listening on ${CONF.port}`);
 });
