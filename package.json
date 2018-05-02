@@ -9,6 +9,7 @@
     "stream": "node stream.js",
     "websockets": "node app.js"
   },
+  "bin": "app.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/lukes/nano-stream-ws.git"
@@ -27,7 +28,6 @@
   "author": "Luke Duncalfe",
   "license": "MIT",
   "dependencies": {
-    "nano-stream-x": "^0.1.0",
     "node-ipc": "^9.1.1",
     "ws": "^5.1.1"
   },

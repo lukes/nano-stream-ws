@@ -7,24 +7,25 @@ It builds on the socket stream of block data set up by the [nano-stream-x](https
 
 ## Installation
 
+Install both [`nano-stream-x`](https://github.com/lukes/nano-stream-x) and `nano-stream-ws` as global packages:
+
+    npm install --global nano-stream-x
     npm install --global nano-stream-ws
 
 ## Usage
 
-You first start the stream of socket data from [nano-stream-x](https://github.com/lukes/nano-stream-x) and then start the websocket server.
-
 ### Start the stream
 
-    npm run stream
+    nano-stream-x
 
-This will start a streaming server on `127.0.0.1:3000`. To override those defaults:
+This will start a streaming server on `127.0.0.1:3000`. To override these:
 
-    npm run stream host=ipv6-localhost port=3001
+    nano-stream-x host=ipv6-localhost port=3001
 
 ### Start the websocket server
 
-    npm run websockets
+    nano-stream-ws
 
 The websocket server will run on port `8080`. To override this:
 
-    npm run websockets port=8081
+    nano-stream-ws port=8081
