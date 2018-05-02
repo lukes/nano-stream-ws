@@ -1,6 +1,6 @@
 {
   "name": "nano-stream-ws",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A tiny and performant websocket server that streams block data from a Nano currency node",
   "main": "app.js",
   "homepage": "https://github.com/lukes/nano-stream-ws",
