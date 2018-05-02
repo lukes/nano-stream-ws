@@ -5,9 +5,7 @@
   "main": "app.js",
   "homepage": "https://github.com/lukes/nano-stream-ws",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "stream": "node stream.js",
-    "websockets": "node app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": "app.js",
   "repository": {

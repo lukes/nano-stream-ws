@@ -3,7 +3,7 @@
 
 A tiny and performant websocket server that streams block data from a [nano currency](https://nano.org/) node.
 
-It builds on the socket stream of block data set up by the [nano-stream-x](https://github.com/lukes/nano-stream-x) library, which is packaged in this library as a dependency.
+It builds on the socket stream of block data set up by the [nano-stream-x](https://github.com/lukes/nano-stream-x) library.
 
 ## Installation
 
