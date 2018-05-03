@@ -7,9 +7,6 @@ const ipc = require('node-ipc');
 ipc.config.id = 'nanoStreamWebSockets';
 ipc.config.retry = 1500;
 
-const wsServer = new http.createServer();
-const wss = new WebSocket.Server({ server: wsServer });
-
 let port = 8080;
 let whitelist = undefined;
 
@@ -28,6 +25,28 @@ args.forEach((arg) => {
   }
 });
 
+const wsServer = new http.createServer();
+
+const options = {
+  server: wsServer
+};
+options.verifyClient = (info, cb) => {
+
+  // Check origin against whitelist if supplied
+  if (whitelist) {
+    if (!whitelist.find(w => info.req.headers.origin.match(w))) {
+      cb(false, 401, 'Unauthorized');
+      console.info(`Denied connection to ${info.req.headers.origin} because origin is not in whitelist ${whitelist.join(',')}`);
+    }
+  }
+
+  /// info.secure
+  cb(true);
+};
+
+const wss = new WebSocket.Server(options);
+
+
 // Set up ping messages to verify all clients are still connected
 function noop() {}
 
@@ -36,14 +55,6 @@ function heartbeat() {
 }
 
 wss.on('connection', (ws, req) => {
-  if (whitelist) {
-    if (!whitelist.find(w => req.headers.origin.match(w))) {
-      ws.terminate();
-      console.info(`Denied connection to ${req.headers.origin} because origin is not in whitelist ${whitelist.join(',')}`);
-      return;
-    }
-  }
-
   ws.isAlive = true;
   ws.on('pong', heartbeat); // Pong messages are automatically sent in response to ping messages as required by the spec.
   console.debug(`Client connected from ${req.headers.origin}. Now ${wss.clients.size} connected clients.`);
