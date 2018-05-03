@@ -91,7 +91,10 @@ wss.on('connection', (ws, req) => {
 
 setInterval(() => {
   wss.clients.forEach(ws => {
-    if (ws.isAlive === false) return ws.terminate();
+    if (ws.isAlive === false) {
+      console.debug('Dead client terminated.');
+      return ws.terminate();
+    }
 
     ws.isAlive = false;
     ws.ping(noop);
