@@ -3,12 +3,14 @@
 const http = require('http');
 const WebSocket = require('ws');
 const ipc = require('node-ipc');
+const jwt = require('jsonwebtoken');
 
 ipc.config.id = 'nanoStreamWebSockets';
 ipc.config.retry = 1500;
 
 let port = 8080;
 let whitelist = undefined;
+let jwtSecret = undefined;
 
 // Process any args passed in and overwrite defaults
 const args =  process.argv.slice(2);
@@ -22,6 +24,10 @@ args.forEach((arg) => {
     whitelist = value.split(',').map(w => new RegExp(w.replace('*', '.*')));
     console.debug(`Whitelisting origins: ${value}`);
     break;
+  case 'jwtSecret':
+    jwtSecret = value;
+    console.debug('JWT authentication will apply.');
+    break;
   }
 });
 
@@ -30,6 +36,8 @@ const wsServer = new http.createServer();
 const options = {
   server: wsServer
 };
+
+// Reject the handshake in certain situations
 options.verifyClient = (info, cb) => {
 
   // Check origin against whitelist if supplied
@@ -40,8 +48,29 @@ options.verifyClient = (info, cb) => {
     }
   }
 
-  /// info.secure
+  // info.req.connection.authorized
+  // info.req.headers.authorization
+  // info.secure
+
+  // Authenticate against JWT secret if supplied
+  if (jwtSecret) {
+    const token = info.req.headers.token;
+    if (!token) { // No token, no access
+      cb(false, 401, 'Unauthorized');
+      console.info(`Denied connection to ${info.req.headers.origin} because token not supplied`);
+    }
+    else {
+      jwt.verify(token, jwtSecret, err => {
+        if (err) {
+          cb(false, 401, 'Unauthorized');
+          console.info(`Denied connection to ${info.req.headers.origin} because token was invalid`);
+        }
+      });
+    }
+  }
+
   cb(true);
+
 };
 
 const wss = new WebSocket.Server(options);

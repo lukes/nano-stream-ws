@@ -30,6 +30,20 @@ The websocket server will run on port `8080`. To override this:
 
     nano-stream-ws port=8081
 
+## Authentication
+
+Authentication can happen through [JWT](https://jwt.io/). If an `jwtSecret` argument is passed, the server will expect a client to connect with an `Authorization` header using the `Bearer` schema containing the JWT token.
+
+    nano-stream-ws jwtSecret=my_secret
+
+The JWT token should [follow the spec](https://jwt.io/) and contain a `header`, `payload` and `signature`.
+
+Example connection request:
+
+    Authorization: Bearer <token>
+
+## Whitelisting
+
 Use the `originWhitelist` to restrict connections from specific domains. Any connections from sites not in the list will be denied.
 
     nano-stream-ws port=8081 originWhitelist=localhost,*.mydomain.com
