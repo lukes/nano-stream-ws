@@ -36,7 +36,7 @@ By default the websocket server will accept connections from anywhere. You may w
 
     nano-stream-ws jwtSecret=my_secret
 
-See [using JWT with nano-stream-ws](https://github.com/lukes/nano-stream-ws/wiki/Authenticating-with-JWT) for more on what should be in the JWT token.
+See [using JWT with nano-stream-ws](https://github.com/lukes/nano-stream-ws/wiki/Authenticating-with-JSON-Web-Tokens-(JWT)) for more on what should be in the JWT token.
 
 ### Whitelisting
 
