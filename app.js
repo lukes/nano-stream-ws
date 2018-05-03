@@ -48,10 +48,6 @@ options.verifyClient = (info, cb) => {
     }
   }
 
-  // info.req.connection.authorized
-  // info.req.headers.authorization
-  // info.secure
-
   // Authenticate against JWT secret if supplied
   if (jwtSecret) {
     const token = info.req.headers.token;
@@ -60,17 +56,25 @@ options.verifyClient = (info, cb) => {
       console.info(`Denied connection to ${info.req.headers.origin} because token not supplied`);
     }
     else {
-      jwt.verify(token, jwtSecret, err => {
-        if (err) {
+      try {
+        var decoded = jwt.verify(token, jwtSecret);
+        if (!decoded.exp) {
           cb(false, 401, 'Unauthorized');
-          console.info(`Denied connection to ${info.req.headers.origin} because token was invalid`);
+          console.info(`Denied connection to ${info.req.headers.origin} because token expiration was not set`);
         }
-      });
+        const now = Math.floor(Date.now() / 1000);
+        if (decoded.exp < now) {
+          cb(false, 401, 'Unauthorized');
+          console.info(`Denied connection to ${info.req.headers.origin} because token has expired (expiration: ${decoded.exp}, time now: ${now})`);
+        }
+      } catch(err) {
+        cb(false, 401, 'Unauthorized');
+        console.info(`Denied connection to ${info.req.headers.origin} because token was invalid`);
+      }
     }
   }
 
   cb(true);
-
 };
 
 const wss = new WebSocket.Server(options);
