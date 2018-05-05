@@ -79,11 +79,10 @@ options.verifyClient = (info, cb) => {
       return rejectHandshake(cb, `Denied connection to ${info.req.headers.origin} error was: ${err.message}`);
     }
 
-    // Record this token as having been used, to allow it to be rejected if
-    // it's used again.
+    // Record this token as having been used, to allow it to be rejected if used again.
     usedJwtTokens.push({t: token, exp: decoded.exp});
-    // Purge tokens from usedJwtTokens that are passed their expiration
-    // as these would be rejected if used again so we don't need to store them.
+    // Purge tokens from usedJwtTokens that have passed their expiration.
+    // These will be rejected if used again so we don't need to store them anymore.
     usedJwtTokens = usedJwtTokens.filter(t => t.exp >= now);
   }
 
