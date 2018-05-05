@@ -33,3 +33,7 @@ The websocket server will run on port `8080`. To override this:
 Use the `originWhitelist` to restrict connections from specific domains. Any connections from sites not in the list will be denied.
 
     nano-stream-ws port=8081 originWhitelist=localhost,*.mydomain.com
+
+### See
+
+* [Running in production](https://github.com/lukes/nano-stream-ws/wiki/Running-in-production) wiki page
