@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 const http = require('http');
+const url = require('url');
 const WebSocket = require('ws');
 const ipc = require('node-ipc');
 const jwt = require('jsonwebtoken');
@@ -11,6 +12,8 @@ ipc.config.retry = 1500;
 let port = 8080;
 let whitelist = undefined;
 let jwtSecret = undefined;
+
+let usedJwtTokens = [];
 
 // Process any args passed in and overwrite defaults
 const args =  process.argv.slice(2);
@@ -37,41 +40,51 @@ const options = {
   server: wsServer
 };
 
+const rejectHandshake = (cb, reason) => {
+  cb(false, 401, 'Unauthorized');
+  console.info(reason);
+};
+
 // Reject the handshake in certain situations
 options.verifyClient = (info, cb) => {
 
   // Check origin against whitelist if supplied
   if (whitelist) {
     if (!whitelist.find(w => info.req.headers.origin.match(w))) {
-      cb(false, 401, 'Unauthorized');
-      console.info(`Denied connection to ${info.req.headers.origin} because origin is not in whitelist ${whitelist.join(',')}`);
+      return rejectHandshake(cb, `Denied connection to ${info.req.headers.origin} because origin is not in whitelist ${whitelist.join(',')}`);
     }
   }
 
   // Authenticate against JWT secret if supplied
   if (jwtSecret) {
-    const token = info.req.headers.token;
+    const token = url.parse(info.req.url, true).query.t;
+    const now = Math.floor(Date.now() / 1000);
+
     if (!token) { // No token, no access
-      cb(false, 401, 'Unauthorized');
-      console.info(`Denied connection to ${info.req.headers.origin} because token not supplied`);
+      return rejectHandshake(cb, `Denied connection to ${info.req.headers.origin} because token not supplied`);
     }
-    else {
-      try {
-        var decoded = jwt.verify(token, jwtSecret);
-        if (!decoded.exp) {
-          cb(false, 401, 'Unauthorized');
-          console.info(`Denied connection to ${info.req.headers.origin} because token expiration was not set`);
-        }
-        const now = Math.floor(Date.now() / 1000);
-        if (decoded.exp < now) {
-          cb(false, 401, 'Unauthorized');
-          console.info(`Denied connection to ${info.req.headers.origin} because token has expired (expiration: ${decoded.exp}, time now: ${now})`);
-        }
-      } catch(err) {
-        cb(false, 401, 'Unauthorized');
-        console.info(`Denied connection to ${info.req.headers.origin} because token was invalid`);
+
+    try {
+      var decoded = jwt.verify(token, jwtSecret);
+
+      if (!decoded.exp) { // No expiration set
+        return rejectHandshake(cb, `Denied connection to ${info.req.headers.origin} because token expiration was not set`);
       }
+
+      if (usedJwtTokens.find(w => w.t == token)) { // Token has already been used once
+        return rejectHandshake(cb, `Denied connection to ${info.req.headers.origin} because token already been used once`);
+      }
+
+    } catch(err) { // Token was invalid
+      return rejectHandshake(cb, `Denied connection to ${info.req.headers.origin} error was: ${err.message}`);
     }
+
+    // Record this token as having been used, to allow it to be rejected if
+    // it's used again.
+    usedJwtTokens.push({t: token, exp: decoded.exp});
+    // Purge tokens from usedJwtTokens that are passed their expiration
+    // as these would be rejected if used again so we don't need to store them.
+    usedJwtTokens = usedJwtTokens.filter(t => t.exp >= now);
   }
 
   cb(true);
