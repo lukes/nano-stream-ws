@@ -42,7 +42,7 @@ const options = {
 
 const rejectHandshake = (cb, reason) => {
   cb(false, 401, 'Unauthorized');
-  console.info(reason);
+  console.error(reason);
 };
 
 // Reject the handshake in certain situations
