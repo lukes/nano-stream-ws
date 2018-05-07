@@ -11,6 +11,7 @@ const wsServer = new http.createServer();
 const wss = new WebSocket.Server({ server: wsServer });
 
 let port = 8080;
+let host = "0.0.0.0";
 let whitelist = undefined;
 
 // Process any args passed in and overwrite defaults
@@ -20,6 +21,9 @@ args.forEach((arg) => {
   switch (key) {
   case 'port':
     port = value;
+    break;
+  case 'host':
+    host = value;
     break;
   case 'originWhitelist':
     whitelist = value.split(',').map(w => new RegExp(w.replace('*', '.*')));
@@ -74,10 +78,10 @@ ipc.connectTo(
   }
 );
 
-wsServer.listen({ port: port }, (err) => {
+wsServer.listen({ port: port, host: host }, (err) => {
   if (err) {
     return console.error('Something bad happened', err);
   }
 
-  console.log(`Websocket server is listening on ${port}`);
+  console.log(`Websocket server is listening on ${host}:${port}`);
 });

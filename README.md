@@ -26,13 +26,13 @@ This will start a streaming server on `127.0.0.1:3000`. To override these:
 
     nano-stream-ws
 
-The websocket server will run on port `8080`. To override this:
+The websocket server will bind to host `0.0.0.0` on port `8080`. To override these:
 
-    nano-stream-ws port=8081
+    nano-stream-ws host="127.0.0.1" port=8081
 
 Use the `originWhitelist` to restrict connections from specific domains. Any connections from sites not in the list will be denied.
 
-    nano-stream-ws port=8081 originWhitelist=localhost,*.mydomain.com
+    nano-stream-ws originWhitelist=localhost,*.mydomain.com
 
 ### See
 
