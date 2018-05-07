@@ -32,7 +32,7 @@ The websocket server will run on port `8080`. To override this:
 
 ### Authentication
 
-By default the websocket server will accept connections from anywhere. You may wish to lock down the connections by using a token standard called [JWT](https://jwt.io/introduction/). If the `jwtSecret` argument is passed, the server will expect a client to connect with an `Authorization` header using the `Bearer` schema containing a JWT token.
+By default the websocket server will accept connections from anywhere. You may wish to lock down the connections by using a token standard called [JWT](https://jwt.io/introduction/). If the `jwtSecret` argument is passed, the server will expect a client to connect with a JWT.
 
     nano-stream-ws jwtSecret=my_secret
 
