@@ -26,6 +26,7 @@
   "author": "Luke Duncalfe",
   "license": "MIT",
   "dependencies": {
+    "jsonwebtoken": "^8.2.1",
     "node-ipc": "^9.1.1",
     "ws": "^5.1.1"
   },
