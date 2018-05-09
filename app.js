@@ -21,8 +21,8 @@ process.argv.slice(2).forEach((arg) => {
 // Settings that can be overridden with arguments
 const port = args.port || 8080;
 const host = args.host || '0.0.0.0';
-let whitelist = args.originWhitelist || undefined;
-const jwtSecret = args.jwtSecret || undefined;
+let whitelist = args.origin_whitelist || undefined;
+const jwtSecret = args.jwt_secret || undefined;
 
 let usedJwtTokens = [];
 

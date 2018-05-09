@@ -36,17 +36,17 @@ Your Nano node is easily configured to send block processing data to a server (i
 
 ### Authentication
 
-By default the websocket server will accept connections from anywhere. You may wish to lock down the connections by using a token standard called [JWT](https://jwt.io/introduction/). If the `jwtSecret` argument is passed, the server will expect a client to connect with a JWT.
+By default the websocket server will accept connections from anywhere. You may wish to lock down the connections by using a token standard called [JWT](https://jwt.io/introduction/). If the `jwt_secret` argument is passed, the server will expect a client to connect with a JWT.
 
-    nano-stream-ws jwtSecret=my_secret
+    nano-stream-ws jwt_secret=my_secret
 
 See [using JWT with nano-stream-ws](https://github.com/lukes/nano-stream-ws/wiki/Authenticating-with-JSON-Web-Tokens-(JWT)) for more on what should be in the JWT token.
 
 ### Whitelisting
 
-Use the `originWhitelist` argument to restrict connections from specific domains. Note that this is not a particularly secure measure as people can set referrer origin headers themselves, but can be used if you wish to try to lock down connections somewhat without any guarantees.
+Use the `origin_whitelist` argument to restrict connections from specific domains. Note that this is not a particularly secure measure as people can set referrer origin headers themselves, but can be used if you wish to try to lock down connections somewhat without any guarantees.
 
-    nano-stream-ws originWhitelist=localhost,*.mydomain.com
+    nano-stream-ws origin_whitelist=localhost,*.mydomain.com
 
 ### See
 
