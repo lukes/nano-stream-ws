@@ -20,7 +20,7 @@ Install both [`nano-stream-x`](https://github.com/lukes/nano-stream-x) and `nano
 
 This will start a streaming server on `127.0.0.1:3000`. To override these:
 
-    nano-stream-x host=ipv6-localhost port=3001
+    nano-stream-x host=ip6-localhost port=3001
 
 ### Start the websocket server
 
