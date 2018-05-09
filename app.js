@@ -9,34 +9,30 @@ const jwt = require('jsonwebtoken');
 ipc.config.id = 'nanoStreamWebSockets';
 ipc.config.retry = 1500;
 
-let port = 8080;
-let host = "0.0.0.0";
-let whitelist = undefined;
-let jwtSecret = undefined;
+const args = {};
+// Collect all args passed in
+process.argv.slice(2).forEach((arg) => {
+  const [key, value] = arg.split('=');
+  args[key] = value;
+});
+
+
+// Settings that can be overridden with arguments
+const port = args.port || 8080;
+const host = args.host || '0.0.0.0';
+let whitelist = args.originWhitelist || undefined;
+const jwtSecret = args.jwtSecret || undefined;
 
 let usedJwtTokens = [];
 
-// Process any args passed in and overwrite defaults
-const args =  process.argv.slice(2);
-args.forEach((arg) => {
-  const [key, value] = arg.split('=');
-  switch (key) {
-  case 'port':
-    port = value;
-    break;
-  case 'host':
-    host = value;
-    break;
-  case 'originWhitelist':
-    whitelist = value.split(',').map(w => new RegExp(w.replace('*', '.*')));
-    console.debug(`Whitelisting origins: ${value}`);
-    break;
-  case 'jwtSecret':
-    jwtSecret = value;
-    console.debug('JWT authentication will apply.');
-    break;
-  }
-});
+if (whitelist) {
+  whitelist = whitelist.split(',').map(w => new RegExp(w.trim().replace('*', '.*')));
+  console.debug(`Whitelisting origins: ${whitelist}`);
+}
+
+if (jwtSecret) {
+  console.debug('JWT authentication will apply.');
+}
 
 const wsServer = new http.createServer();
 
