@@ -30,6 +30,10 @@ The websocket server will bind to host `0.0.0.0` on port `8080`. To override the
 
     nano-stream-ws host="127.0.0.1" port=8081
 
+### Configure your Nano node to send data to nano-stream-x
+
+Your Nano node is easily configured to send block processing data to a server (in this case `nano-stream-x`). See the [wiki article](https://github.com/lukes/nano-stream-x/wiki/Configure-your-Nano-node-to-send-data-to-the-nano-stream-x) (external link) for how to set this up.
+
 ### Authentication
 
 By default the websocket server will accept connections from anywhere. You may wish to lock down the connections by using a token standard called [JWT](https://jwt.io/introduction/). If the `jwtSecret` argument is passed, the server will expect a client to connect with a JWT.
