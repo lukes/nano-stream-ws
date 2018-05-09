@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 
 ipc.config.id = 'nanoStreamWebSockets';
 ipc.config.retry = 1500;
+ipc.config.logger = () => {}; // Make ipc logger a no-op
 
 const args = {};
 // Collect all args passed in
@@ -119,6 +120,14 @@ setInterval(() => {
 
 ipc.connectTo(
   'nanoStream', () => {
+    ipc.of.nanoStream.on('error', (err) => {
+      if (err.errno == 'ECONNREFUSED') {
+        console.error('Error trying to connect to nano-stream-x, nano-stream-x is not running');
+      } else {
+        console.error('Error trying to connect to nano-stream-x', err);
+      }
+    });
+    ipc.of.nanoStream.on('connect', () => console.debug('Connected to nano-stream-x'));
     ipc.of.nanoStream.on(
       'payload', // topic
       (data) => {
