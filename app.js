@@ -127,7 +127,7 @@ ipc.connectTo(
         console.error('Error trying to connect to nano-stream-x', err);
       }
     });
-    ipc.of.nanoStream.on('connect', () => console.debug('Connected to nano-stream-x'));
+    ipc.of.nanoStream.on('connect', () => console.info('Connected to nano-stream-x'));
     ipc.of.nanoStream.on(
       'payload', // topic
       (data) => {
