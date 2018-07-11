@@ -1,6 +1,8 @@
 
 # nano-stream-ws
 
+[![npm version](https://badge.fury.io/js/nano-stream-ws.svg)](https://badge.fury.io/js/nano-stream-ws)
+
 A tiny and performant websocket server that streams block data from a [nano currency](https://nano.org/) node.
 
 It builds on the socket stream of block data set up by the [nano-stream-x](https://github.com/lukes/nano-stream-x) library.
